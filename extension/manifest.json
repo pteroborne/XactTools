@@ -5,6 +5,16 @@
 
   "description": "Suite of tools for support technicians - Dog Food Only",
 
+  "omnibox": {
+    "keyword": "xact"
+  },
+
+  "background": {
+    "scripts": [
+      "/src/resend_assignment.js"
+    ]
+  },
+
   "permissions": [
     "*://*/",
     "webNavigation"
