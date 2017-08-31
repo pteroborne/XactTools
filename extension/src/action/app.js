@@ -19,6 +19,10 @@ function action(e){
   }
 
   switch(e.target.closest('.act').getAttribute('data-action')){
+    case 'resend':
+      bg.resend(input, message);
+      break;
+
     default:break;
   }
 }
@@ -26,4 +30,16 @@ function action(e){
 function removeInputError(){
   this.classList.remove('error');
   this.removeEventListener('input', removeInputError);
+}
+
+function message(msg){
+  while(document.body.firstChild){
+    document.body.firstChild.remove();
+  }
+
+  const message = document.createElement('div');
+  message.classList.add('message');
+  const text = document.createTextNode(msg);
+  message.append(text);
+  document.body.append(message);
 }
