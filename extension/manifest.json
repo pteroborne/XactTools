@@ -29,5 +29,7 @@
       "matches": ["https://*.xactware.com/kcm/search", "https://*.xactware.com/kcm/search/*"],
       "js": ["/src/kcm_xna.js"]
     }
-  ]
+  ],
+
+  "options_page": "/src/settings/index.html"
 }
