@@ -45,6 +45,46 @@ body{
   flex-grow:1;
 }
 
+.message{
+  position:absolute;
+  height:40px;
+  background:#fff;
+  width:100%;
+  text-align:center;
+  line-height:40px;
+  box-shadow:0 1px 10px rgba(0,0,0,0.3);
+  transition:margin 0.2s, box-shadow 0.2s;
+}
+
+.message svg{
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-width:2;
+  stroke:transparent;
+  width:15px;
+  height:15px;
+  padding:4px;
+  position:absolute;
+  bottom:0;
+  top:0;
+  right:10px;
+  margin:auto 0;
+  cursor:pointer;
+}
+
+.message:hover svg{
+  stroke:#bbb;
+}
+
+.message svg:hover{
+  stroke:#252525;
+}
+
+.message.hide{
+  margin-top:-40px;
+  box-shadow:none;
+}
+
 .section{
   width:calc(100% - 50px);
   background:#fff;
