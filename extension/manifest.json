@@ -10,7 +10,7 @@
   },
 
   "browser_action": {
-    "default_popup": "/src/action/index.html"
+    "default_popup": "/pages/action/index.html"
   },
 
   "background": {
@@ -31,5 +31,5 @@
     }
   ],
 
-  "options_page": "/src/settings/index.html"
+  "options_page": "/pages/settings/index.html"
 }
