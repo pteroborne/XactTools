@@ -1,18 +1,49 @@
-//Save XID
-document.getElementById('xid_save').addEventListener('click', function(){
-  chrome.storage.local.set({xid: {
-    user: document.getElementById('xid_user').value.trim(),
-    pass: document.getElementById('xid_pass').value.trim()
-  }}, message('changes saved'));
+window.addEventListener('DOMContentLoaded', function(){
+  //Add Navigation
+  const paths = document.querySelectorAll('.sidebar li');
+  for(let i = 0; i < paths.length; i++){
+    paths[i].addEventListener('click', navigate);
+  }
+
+  //Load first component on page Load
+  paths[0].click();
 });
 
-//Save Blue Tool
-document.getElementById('bt_save').addEventListener('click', function(){
-  chrome.storage.local.set({bt: {
-    user: document.getElementById('bt_user').value.trim(),
-    pass: document.getElementById('bt_pass').value.trim()
-  }}, message('changes saved'));
-});
+function navigate(){
+  console.log(this);
+  const comp = this.getAttribute('data-component');
+  const body = document.querySelector('.body');
+
+  //Add active class to Navigation
+  if(document.querySelector('.sidebar li.active')){
+    document.querySelector('.sidebar li.active').classList.remove('active');
+  }
+
+  this.classList.add('active');
+
+  //Load new component
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', '/pages/settings/components/'+comp+'/index.html', true);
+  xhr.onload = function(){
+
+    //Remove existing component
+    while(body.firstChild){
+      body.firstChild.remove();
+    }
+    if(document.getElementById('comp_js')){
+      document.getElementById('comp_js').remove();
+    }
+
+    body.innerHTML = this.response;
+
+    //Load script
+    const js = document.createElement('script');
+    js.id = 'comp_js';
+    js.src = '/pages/settings/components/'+comp+'/app.js';
+    document.body.appendChild(js);
+  }
+  xhr.send();
+}
 
 function message(msg){
   const m = document.createElement('div');
