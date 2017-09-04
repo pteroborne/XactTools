@@ -10,7 +10,6 @@ window.addEventListener('DOMContentLoaded', function(){
 });
 
 function navigate(){
-  console.log(this);
   const comp = this.getAttribute('data-component');
   const body = document.querySelector('.body');
 
@@ -70,7 +69,7 @@ function message(msg){
   svg.append(line2);
   m.append(svg);
 
-  document.querySelector('.body').insertBefore(m, document.querySelector('.body').firstChild);
+  document.querySelector('.wrap').insertBefore(m, document.querySelector('.wrap').firstChild);
   m.addEventListener('click', function(){
     m.classList.add('hide');
     setTimeout(function(){
@@ -80,11 +79,11 @@ function message(msg){
 
   setTimeout(function(){
     m.classList.remove('hide');
-  }, 1);
+  }, 50);
 
   setTimeout(function(){
     m.classList.add('hide');
-  }, 6001);
+  }, 6000);
 
   setTimeout(function(){
     m.remove();
