@@ -15,6 +15,7 @@
 
   "background": {
     "scripts": [
+      "/src/login.js",
       "/src/resend_assignment.js"
     ]
   },
