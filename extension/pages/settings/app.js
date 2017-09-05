@@ -5,13 +5,31 @@ window.addEventListener('DOMContentLoaded', function(){
     paths[i].addEventListener('click', navigate);
   }
 
-  //Load first component on page Load
-  paths[0].click();
+  //Load first component
+  if(window.location.hash){
+    const hash = location.hash.replace('#', '');
+    if(document.querySelector('li[data-component='+hash+']')){
+      document.querySelector('li[data-component='+hash+']').click();
+    }
+  }else{
+    location.hash = paths[0].getAttribute('data-component');
+  }
+});
+
+//History function
+window.addEventListener('hashchange', function(e){
+  const hash = location.hash.replace('#', '');
+  if(document.querySelector('li[data-component='+hash+']')){
+    document.querySelector('li[data-component='+hash+']').click();
+  }
 });
 
 function navigate(){
   const comp = this.getAttribute('data-component');
   const body = document.querySelector('.body');
+
+  //Update hash
+  location.hash = this.getAttribute('data-component');
 
   //Add active class to Navigation
   if(document.querySelector('.sidebar li.active')){
