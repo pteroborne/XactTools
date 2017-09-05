@@ -37,7 +37,7 @@ body > * + *{
 
 .act{
   align-items:center;
-  background:hsl(176, 61%, 29%);
+  background:hsl(165, 100%, 45%);
   border-radius:2px;
   box-sizing:border-box;
   color:#fff;
@@ -55,11 +55,11 @@ body > * + *{
 }
 
 .act:hover{
-  background:hsl(176, 50%, 29%);
+  background:hsl(165, 90%, 45%);
 }
 
 .act:active{
-  background:hsl(176, 40%, 29%);
+  background:hsl(165, 80%, 45%);
 }
 
 .act .name{
