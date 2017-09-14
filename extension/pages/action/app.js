@@ -23,6 +23,10 @@ function action(e){
       bg.resend(input, message);
       break;
 
+    case 'open_asgmt':
+      bg.openAssignment(input, message);
+      break;
+
     default:break;
   }
 }
