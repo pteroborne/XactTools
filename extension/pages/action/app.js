@@ -27,6 +27,10 @@ function action(e){
       bg.openAssignment(input, message);
       break;
 
+    case 'lic_admin':
+      bg.openLicenseAdmin(input, message);
+      break;
+
     default:break;
   }
 }
