@@ -18,21 +18,8 @@ function action(e){
     return;
   }
 
-  switch(e.target.closest('.act').getAttribute('data-action')){
-    case 'resend':
-      bg.resend(input, message);
-      break;
-
-    case 'open_asgmt':
-      bg.openAssignment(input, message);
-      break;
-
-    case 'lic_admin':
-      bg.openLicenseAdmin(input, message);
-      break;
-
-    default:break;
-  }
+  //Run function
+  bg[e.target.closest('.act').getAttribute('data-action')](input, message);
 }
 
 function removeInputError(){
