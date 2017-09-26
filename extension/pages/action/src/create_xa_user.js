@@ -40,8 +40,47 @@ function createXAUser(input, callback){
         throw new Error('Missing required fields');
       }
 
-      //Do stuff
-      console.log(true);
+      //Create user request
+      const data = {
+        account: 'Adjuster',
+        userAccount: 'Adjuster',
+        email_address: document.getElementById('xid').value.trim().replace(/\s/g, ''),
+        xid: document.getElementById('xid').value.trim().replace(/\s/g, ''),
+        first_name: document.getElementById('fname').value.trim().replace(/\s/g, ''),
+        last_name: document.getElementById('lname').value.trim().replace(/\s/g, ''),
+        user_id: document.getElementById('uid').value.trim().replace(/\s/g, ''),
+
+        //Other required data
+        addAnother: false,
+        command: false,
+        context: 'GENER',
+        grant_future_rights: false,
+        locale: 'en_US',
+        password: 'T3stP@ssw0rd',
+        password2: 'T3stP@ssw0rd',
+        redirectOnDelete: './UserList.jsp?account=Adjuster',
+        test_user: true,
+        userNumber: 0,
+        user_number: 0,
+        xid_action: 'xida_create'
+      };
+
+      let dataToSend = '';
+
+      for(let i in data){
+        if(dataToSend !== ''){
+          dataToSend += '&';
+        }
+
+        dataToSend += encodeURIComponent(i) + '=' + encodeURIComponent(data[i]);
+      }
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://apps.xactware.com/apps/xnadmin/SaveUser', true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onload = addRights;
+      xhr.send(dataToSend);
+
     });
 
     //Add pre-given XID
@@ -53,5 +92,20 @@ function createXAUser(input, callback){
   function radioControl(e){
     document.querySelector('.radio.sel').classList.remove('sel');
     e.target.classList.add('sel');
+  }
+
+  function addRights(){
+    const html = document.createElement('html');
+    html.innerHTML = this.response;
+    const script = html.querySelector('script');
+
+    const alertMessage = script.innerHTML.match(/alert\("(.*)"\)/);
+
+    //If creation was successful
+    if(!alertMessage){
+      message('Success');
+    }else{
+      message(alertMessage[1].replace(/\\n/gi, ' '));
+    }
   }
 }
