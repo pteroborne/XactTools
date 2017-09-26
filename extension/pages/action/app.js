@@ -1,5 +1,3 @@
-const bg = chrome.extension.getBackgroundPage();
-
 window.addEventListener('DOMContentLoaded', function(){
   const actions = document.querySelectorAll('.act');
 
@@ -19,7 +17,7 @@ function action(e){
   }
 
   //Run function
-  bg[e.target.closest('.act').getAttribute('data-action')](input, message);
+  window[e.target.closest('.act').getAttribute('data-action')](input, message);
 }
 
 function removeInputError(){

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "XactTools",
-  "version": "0.8.3",
+  "version": "0.8.4",
 
   "description": "Suite of tools for support technicians - Dog Food Only",
 
@@ -15,10 +15,7 @@
 
   "background": {
     "scripts": [
-      "/src/license_admin.js",
-      "/src/login.js",
-      "/src/open_assignment.js",
-      "/src/resend_assignment.js"
+      "/src/login.js"
     ]
   },
 
