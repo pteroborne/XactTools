@@ -36,3 +36,21 @@ function message(msg){
   message.append(text);
   document.body.append(message);
 }
+
+function encodeURIData(obj){
+  if(typeof obj !== 'object'){
+    throw new Error('Invalid input: Expected object. Received '+typeof obj);
+  }
+
+  let response = '';
+
+  for(let i in obj){
+    if(response !== ''){
+      response += '&';
+    }
+
+    response += i + '=' + obj[i];
+  }
+
+  return response;
+}

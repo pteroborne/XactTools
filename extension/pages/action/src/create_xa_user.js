@@ -77,21 +77,11 @@ function createXAUser(input, callback){
         xid_action: 'xida_create'
       };
 
-      let dataToSend = '';
-
-      for(let i in data){
-        if(dataToSend !== ''){
-          dataToSend += '&';
-        }
-
-        dataToSend += encodeURIComponent(i) + '=' + encodeURIComponent(data[i]);
-      }
-
       const xhr = new XMLHttpRequest();
       xhr.open('POST', 'https://apps.xactware.com/apps/xnadmin/SaveUser', true);
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhr.onload = addRights;
-      xhr.send(dataToSend);
+      xhr.send(encodeURIData(data));
 
     });
 
@@ -142,15 +132,7 @@ function createXAUser(input, callback){
       test_user: false,
     }
 
-    let dataToSend = '';
-
-    for(let i in data){
-      if(dataToSend !== ''){
-        dataToSend += '&';
-      }
-
-      dataToSend += encodeURIComponent(i) + '=' + encodeURIComponent(data[i]);
-    }
+    let dataToSend = encodeURIData(data);
 
     //Add account specific rights
     if(account === 'Adjuster'){
@@ -177,23 +159,13 @@ function createXAUser(input, callback){
         xna: document.getElementById('xna').value.trim().toUpperCase()
       }
 
-      let dataToSend = '';
-
-      for(let i in data){
-        if(dataToSend !== ''){
-          dataToSend += '&';
-        }
-
-        dataToSend += i + '=' + data[i];
-      }
-
       const xhr = new XMLHttpRequest();
       xhr.open('POST', 'https://apps.xactware.com/apps/xnadmin/UpdateCoRights.jsp', true);
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhr.onload = function(){
         message('Success');
       }
-      xhr.send(dataToSend);
+      xhr.send(encodeURIData(data));
     }else if(account === 'Contractor'){
 
       //Get company ID from XNA
