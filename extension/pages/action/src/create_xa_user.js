@@ -136,9 +136,9 @@ function createXAUser(input, callback){
 
     //Add account specific rights
     if(account === 'Adjuster'){
-      dataToSend += '&appRight_=xasp|action_items&appRight_=cxa|pers_rules&appRight_=cxa|run';
+      dataToSend += '&appRight_=xasp|action_items&appRight_=cxa|pers_rules&appRight_=cxa|run&appRight_=roof_insight|request';
     }else if(account === 'Contractor'){
-      dataToSend += '&appRight_=xasp|action_items&appRight_=cxa|pers_rules&appRight_=cxa|run&appRight_=cxa|reports';
+      dataToSend += '&appRight_=xasp|action_items&appRight_=cxa|pers_rules&appRight_=cxa|run&appRight_=cxa|reports&appRight_=roof_insight|request';
     }
 
     //Send request
