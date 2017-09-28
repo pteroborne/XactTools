@@ -27,63 +27,12 @@ function createXAUser(input, callback){
     //Add 'Enter' key alias
     window.addEventListener('keydown', function(e){
       if(e.key === 'Enter'){
-        document.getElementById('submit').click();
+        check();
       }
     });
 
     //Submit function
-    document.getElementById('submit').addEventListener('click', function(){
-
-      const inputs = document.querySelectorAll('input');
-      let failed = false;
-
-      //Check if all fields are filled
-      for(let i = 0; i < inputs.length; i++){
-        if(inputs[i].value.trim() === ''){
-          inputs[i].addEventListener('input', removeInputError);
-          inputs[i].classList.add('error');
-          failed = true;
-        }
-      }
-
-      if(failed){
-        throw new Error('Missing required fields');
-      }
-
-      account = document.querySelector('.radio.sel').innerHTML === 'Contractor' ? 'Contractor' : 'Adjuster';
-
-      //Create user request
-      const data = {
-        account: account,
-        userAccount: account,
-        email_address: document.getElementById('xid').value.trim().replace(/\s/g, ''),
-        xid: document.getElementById('xid').value.trim().replace(/\s/g, ''),
-        first_name: document.getElementById('fname').value.trim().replace(/\s/g, ''),
-        last_name: document.getElementById('lname').value.trim().replace(/\s/g, ''),
-        user_id: document.getElementById('uid').value.trim().replace(/\s/g, ''),
-
-        //Other required data
-        addAnother: false,
-        command: false,
-        context: 'GENER',
-        grant_future_rights: false,
-        locale: 'en_US',
-        password: 'T3stP@ssw0rd',
-        password2: 'T3stP@ssw0rd',
-        redirectOnDelete: './UserList.jsp?account='+account,
-        test_user: false,
-        userNumber: 0,
-        user_number: 0,
-        xid_action: 'xida_create'
-      };
-
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://apps.xactware.com/apps/xnadmin/SaveUser', true);
-      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-      xhr.onload = addRights;
-      xhr.send(encodeURIData(data));
-
-    });
+    document.getElementById('submit').addEventListener('click', check);
 
     //Add pre-given XID
     if(typeof input === 'string'){
@@ -94,6 +43,73 @@ function createXAUser(input, callback){
   function radioControl(e){
     document.querySelector('.radio.sel').classList.remove('sel');
     e.target.classList.add('sel');
+  }
+
+  function check(){
+    const inputs = document.querySelectorAll('input');
+    let failed = false;
+
+    //Check if all fields are filled
+    for(let i = 0; i < inputs.length; i++){
+      if(inputs[i].value.trim() === ''){
+        inputs[i].addEventListener('input', removeInputError);
+        inputs[i].classList.add('error');
+        failed = true;
+      }
+    }
+
+    if(failed){
+      throw new Error('Missing required fields');
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://api.tregan.io/xw/getAccount/xna/'+document.getElementById('xna').value.trim(), true);
+    xhr.onload = function(){
+      const response = JSON.parse(this.response);
+      if(response.success){
+        submit();
+      }else{
+        message(response.reason);
+        throw new Error(response.reason);
+      }
+    }
+    xhr.send();
+  }
+
+  function submit(){
+
+    account = document.querySelector('.radio.sel').innerHTML === 'Contractor' ? 'Contractor' : 'Adjuster';
+
+    //Create user request
+    const data = {
+      account: account,
+      userAccount: account,
+      email_address: document.getElementById('xid').value.trim().replace(/\s/g, ''),
+      xid: document.getElementById('xid').value.trim().replace(/\s/g, ''),
+      first_name: document.getElementById('fname').value.trim().replace(/\s/g, ''),
+      last_name: document.getElementById('lname').value.trim().replace(/\s/g, ''),
+      user_id: document.getElementById('uid').value.trim().replace(/\s/g, ''),
+
+      //Other required data
+      addAnother: false,
+      command: false,
+      context: 'GENER',
+      grant_future_rights: false,
+      locale: 'en_US',
+      password: 'T3stP@ssw0rd',
+      password2: 'T3stP@ssw0rd',
+      redirectOnDelete: './UserList.jsp?account='+account,
+      test_user: false,
+      userNumber: 0,
+      user_number: 0,
+      xid_action: 'xida_create'
+    };
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://apps.xactware.com/apps/xnadmin/SaveUser', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onload = addRights;
+    xhr.send(encodeURIData(data));
   }
 
   function addRights(){
