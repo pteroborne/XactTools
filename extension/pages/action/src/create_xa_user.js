@@ -45,6 +45,31 @@ function createXAUser(input, callback){
     e.target.classList.add('sel');
   }
 
+  function lockInput(){
+
+    //Disable inputs
+    const inputs = document.querySelectorAll('input');
+    for(let i = 0; i < inputs.length; i++){
+      inputs[i].disabled = true;
+    }
+
+    //Disable radio control
+    const radio = document.querySelectorAll('.radio');
+    for(let i = 0; i < radio.length; i++){
+      radio[i].removeEventListener('click', radioControl);
+      radio[i].classList.add('disabled');
+    }
+
+    //Disable submit button
+    document.getElementById('submit').classList.add('disabled');
+    document.getElementById('submit').removeEventListener('click', check);
+
+    //Add loader
+    const loader = document.createElement('div');
+    loader.classList.add('loader');
+    document.body.appendChild(loader);
+  }
+
   function check(){
     const inputs = document.querySelectorAll('input');
     let failed = false;
@@ -61,6 +86,8 @@ function createXAUser(input, callback){
     if(failed){
       throw new Error('Missing required fields');
     }
+
+    lockInput();
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://api.tregan.io/xw/getAccount/xna/'+document.getElementById('xna').value.trim(), true);
