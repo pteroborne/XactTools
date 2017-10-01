@@ -78,7 +78,6 @@ function createXAUser(input, callback){
   }
 
   function lockInput(){
-
     //Disable inputs
     const inputs = document.querySelectorAll('input');
     for(let i = 0; i < inputs.length; i++){
@@ -100,6 +99,28 @@ function createXAUser(input, callback){
     const loader = document.createElement('div');
     loader.classList.add('loader');
     document.body.appendChild(loader);
+  }
+
+  function unlockInput(){
+    //Enable inputs
+    const inputs = document.querySelectorAll('input');
+    for(let i = 0; i < inputs.length; i++){
+      inputs[i].disabled = false;
+    }
+
+    //Enable radio control
+    const radio = document.querySelectorAll('.radio');
+    for(let i = 0; i < radio.length; i++){
+      radio[i].addEventListener('click', radioControl);
+      radio[i].classList.remove('disabled');
+    }
+
+    //Enable submit button
+    document.getElementById('submit').classList.remove('disabled');
+    document.getElementById('submit').addEventListener('click', check);
+
+    //Remove loader
+    document.querySelector('.loader').remove();
   }
 
   function check(){
@@ -128,6 +149,7 @@ function createXAUser(input, callback){
       if(response.success){
         submit();
       }else{
+        unlockInput();
         innerMessage(response.reason);
         throw new Error(response.reason);
       }
@@ -180,6 +202,7 @@ function createXAUser(input, callback){
 
     //If creation failed
     if(!!alertMessage){
+      unlockInput();
       innerMessage(alertMessage[1].replace(/\\n/gi, ' '));
       throw new Error(alertMessage[1].replace(/\\n/gi, ' '));
     }
