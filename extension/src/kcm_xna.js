@@ -2,9 +2,15 @@
 
   //Check if on search pages
   function checkPage(){
+    //If search page is loaded
     if(location.pathname.match(/\/kcm\/search/) && document.querySelector('fieldset')){
       addSearchInput();
+
+    //If KCM page is loaded
+    }else if(location.pathname.match(/\kcm\/company\/([0-9]*)/) && document.querySelector('.panel-heading')){
+      addLicenseAdmin();
     }
+
     setTimeout(checkPage, 50);
   }
 
@@ -56,6 +62,32 @@
         submit();
       }
     })
+  }
+
+  //Add license admin link
+  function addLicenseAdmin(){
+    if(document.getElementById('license_admin')){
+      return;
+    }
+
+    const btnContainer = document.createElement('a');
+    btnContainer.classList.add('btn-group', 'pull-right');
+    btnContainer.id = 'license_admin';
+    btnContainer.target = '_blank';
+    btnContainer.rel = 'noopener noreferrer';
+    btnContainer.href = 'https://apps.xactware.com/apps/shared/licenseAdmin.jsp?fcoid='+location.pathname.match(/\kcm\/company\/([0-9]*)/)[1];
+    //Prevent drop down from expanding
+    btnContainer.addEventListener('click', function(e){
+      e.stopPropagation();
+    })
+
+    const btn = document.createElement('button');
+    btn.classList.add('btn', 'btn-link', 'ng-scope');
+    btn.type = 'button';
+    btn.innerHTML = 'License Admin';
+
+    btnContainer.appendChild(btn);
+    document.querySelector('.panel-heading').appendChild(btnContainer);
   }
 
   //Send api request
