@@ -40,13 +40,44 @@ function createXAUser(input, callback){
     }
   }
 
+  function innerMessage(msg){
+    const duration = 3000;
+
+    //Delete existing message
+    if(document.querySelector('.msg')){
+      document.querySelector('.msg').remove();
+    }
+
+    const m = document.createElement('div');
+    m.classList.add('msg', 'hidden');
+    m.innerHTML = msg;
+    document.body.appendChild(m);
+
+    //Get opacity transition from CSS
+    const cssTransition = getComputedStyle(m).transition.match(/opacity ([0-9.]+)s/)[1] * 1000;
+
+    //Fade in animation
+    setTimeout(function(){
+      m.classList.remove('hidden');
+    }, 1);
+
+    //Fade out animation
+    setTimeout(function(){
+      m.classList.add('hidden');
+    }, duration + cssTransition);
+
+    //Remove message
+    setTimeout(function(){
+      m.remove();
+    }, duration + cssTransition + cssTransition);
+  }
+
   function radioControl(e){
     document.querySelector('.radio.sel').classList.remove('sel');
     e.target.classList.add('sel');
   }
 
   function lockInput(){
-
     //Disable inputs
     const inputs = document.querySelectorAll('input');
     for(let i = 0; i < inputs.length; i++){
@@ -68,6 +99,28 @@ function createXAUser(input, callback){
     const loader = document.createElement('div');
     loader.classList.add('loader');
     document.body.appendChild(loader);
+  }
+
+  function unlockInput(){
+    //Enable inputs
+    const inputs = document.querySelectorAll('input');
+    for(let i = 0; i < inputs.length; i++){
+      inputs[i].disabled = false;
+    }
+
+    //Enable radio control
+    const radio = document.querySelectorAll('.radio');
+    for(let i = 0; i < radio.length; i++){
+      radio[i].addEventListener('click', radioControl);
+      radio[i].classList.remove('disabled');
+    }
+
+    //Enable submit button
+    document.getElementById('submit').classList.remove('disabled');
+    document.getElementById('submit').addEventListener('click', check);
+
+    //Remove loader
+    document.querySelector('.loader').remove();
   }
 
   function check(){
@@ -96,7 +149,8 @@ function createXAUser(input, callback){
       if(response.success){
         submit();
       }else{
-        message(response.reason);
+        unlockInput();
+        innerMessage(response.reason);
         throw new Error(response.reason);
       }
     }
@@ -148,7 +202,8 @@ function createXAUser(input, callback){
 
     //If creation failed
     if(!!alertMessage){
-      message(alertMessage[1].replace(/\\n/gi, ' '));
+      unlockInput();
+      innerMessage(alertMessage[1].replace(/\\n/gi, ' '));
       throw new Error(alertMessage[1].replace(/\\n/gi, ' '));
     }
 
