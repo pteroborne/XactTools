@@ -1,23 +1,19 @@
 (function() {
 
-  //Check if form has been loaded. If not, wait and check again
-  checkPage();
+  //Check if on search pages
   function checkPage(){
-    if(document.getElementById('xacttools_xna')){
-      return;
+    if(location.pathname.match(/\/kcm\/search/) && document.querySelector('fieldset')){
+      addSearchInput();
     }
-
-    window.setTimeout(function(){
-      if(document.querySelector('fieldset')){
-        addSearchInput(document.querySelector('fieldset'));
-      }else{
-        window.setTimeout(checkPage, 100);
-      }
-    }, 1);
+    setTimeout(checkPage, 50);
   }
 
+  setTimeout(checkPage, 50);
+
   //Adds search bar to form
-  function addSearchInput(elmt){
+  function addSearchInput(){
+    const elmt = document.querySelector('fieldset');
+
     if(document.getElementById('xacttools_xna')){
       return;
     }

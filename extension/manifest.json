@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "XactTools",
-  "version": "0.8.9",
+  "version": "0.8.10",
 
   "description": "Suite of tools for support technicians - Dog Food Only",
 
@@ -28,7 +28,7 @@
 
   "content_scripts": [
     {
-      "matches": ["https://*.xactware.com/kcm/search", "https://*.xactware.com/kcm/search/*"],
+      "matches": ["https://*.xactware.com/kcm/*"],
       "js": ["/src/kcm_xna.js"]
     }
   ],
