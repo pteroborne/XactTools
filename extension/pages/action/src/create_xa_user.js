@@ -262,6 +262,13 @@ function createXAUser(input, callback){
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhr.onload = function(){
         message('Success');
+        const l = document.createElement('div');
+        l.innerHTML = 'Open user info';
+        l.classList.add('message_link');
+        l.addEventListener('click', function(){
+          chrome.tabs.create({url: 'https://apps.xactware.com/apps/xnadmin/EditUserAdmin?user_number='+user_number});
+        })
+        document.body.appendChild(l);
       }
       xhr.send(encodeURIData(data));
     }else if(account === 'Contractor'){
@@ -276,6 +283,13 @@ function createXAUser(input, callback){
         x.open('GET', 'https://apps.xactware.com/apps/xnadmin/UpdateCoRights.jsp?user_number='+user_number+'&account=Contractor&level1=-2&level2=-2&level3=-2&level4=-2&mode=&companyID=&CoRight_='+acct+'%7C%7C-2%7C-2%7C-2%7C-2&carrier='+acct+'&xna=', true);
         x.onload = function(){
           message('Success');
+          const l = document.createElement('div');
+          l.innerHTML = 'Open user info';
+          l.classList.add('message_link');
+          l.addEventListener('click', function(){
+            chrome.tabs.create({url: 'https://apps.xactware.com/apps/xnadmin/EditUserAdmin?user_number='+user_number});
+          })
+          document.body.appendChild(l);
         }
         x.send();
       }

@@ -177,3 +177,16 @@ input.error{
   0%{transform:rotate(0deg);}
   100%{transform:rotate(360deg);}
 }
+
+.message_link{
+  position:absolute;
+  bottom:20px;
+  text-align:center;
+  width:100%;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.message_link:hover{
+  text-decoration:underline;
+}
