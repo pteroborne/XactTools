@@ -1,0 +1,20 @@
+{
+  "name": "xacttools",
+  "main": "app/index.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/treemmett/xacttools.git"
+  },
+  "author": "treemmett",
+  "bugs": {
+    "url": "https://github.com/treemmett/xacttools/issues"
+  },
+  "homepage": "https://github.com/treemmett/xacttools#readme",
+  "dependencies": {
+    "electron": "^1.7.9"
+  }
+}

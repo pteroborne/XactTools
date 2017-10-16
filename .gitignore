@@ -2,3 +2,7 @@
 extension.crx
 extension.pem
 extension.zip
+
+#Node.js
+node_modules/
+package-lock.json
