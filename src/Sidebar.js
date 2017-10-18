@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import './Sidebar.scss';
 
 export default class Sidebar extends Component {
@@ -6,7 +7,7 @@ export default class Sidebar extends Component {
     return (
       <div className="sidebar">
         <div className="title">Preferences</div>
-        <li>Credentials</li>
+        <Link to="/credentials"><li>Credentials</li></Link>
       </div>
     );
   }

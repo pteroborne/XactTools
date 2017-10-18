@@ -6,7 +6,11 @@ body, #root, .root_body{
   width:100%;
 }
 
-
 .root_body{
   display:flex;
+}
+
+a{
+  color:inherit;
+  text-decoration:inherit;
 }
