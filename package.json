@@ -2,7 +2,9 @@
   "name": "xacttools",
   "main": "main.js",
   "scripts": {
-    "start": "node config/scripts/start.js"
+    "server": "node config/scripts/start.js",
+    "electron": "electron .",
+    "start": "concurrently --kill-others \"npm run server\" \"npm run electron\""
   },
   "repository": {
     "type": "git",
@@ -96,5 +98,8 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0"
   }
 }
