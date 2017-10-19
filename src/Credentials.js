@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {xaLogin} from './global/login';
+xaLogin();
 
 export default class Credentials extends Component{
   save = (e)=>{
@@ -13,7 +15,7 @@ export default class Credentials extends Component{
     }
 
     //Store credentials in storage
-    localStorage.setItem(id+'_cred', JSON.stringify({
+    localStorage.setItem(id+'_creds', JSON.stringify({
       user: user,
       pass: pass
     }));
