@@ -17,9 +17,52 @@ export function xaLogin(){
     })
   }).then((response)=>{
     response.text().then((text)=>{
-      console.log(text);
+      getAccount(text);
     });
   });
+
+  //Get account number
+  function getAccount(t){
+    //Creat virtual document
+    const html = document.implementation.createHTMLDocument();
+    html.documentElement.innerHTML = t;
+    console.log(html);
+
+    //Check if login was successful
+    if(!html.documentElement.querySelector('#accountBody')){
+      console.log('Login Failed');
+      return;
+    }
+
+    //Find Xactware account
+    const xwRow = html.documentElement.querySelector('[accountname="Xactware"]');
+
+    //If Xactware account doesn't exist
+    if(!xwRow){
+      console.log('Super account doesn\'t exist');
+      return;
+    }
+
+    //Store account number
+    const xa_id = xwRow.getAttribute('number');
+    localStorage.setItem('xa_id', xa_id);
+
+    //Login with Xactware account
+    fetch('https://apps.xactware.com/apps/shared/XALoginServlet', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: encodeData({usernumber: xa_id})
+    }).then((response)=>{
+      response.json().then((json)=>{
+        if(json.success){
+          console.log('Login Successful');
+        }else{
+          console.log(json.message ? json.message : 'Login failed for an unknown reason');
+        }
+      });
+    });
+  }
 }
 
 //Convert object into x-www-form-urlencoded
