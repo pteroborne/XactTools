@@ -11,20 +11,7 @@ export function xaLogin(callback){
   fetch('https://apps.xactware.com/apps/shared/logout.jsp?fullxa=true', {
     method: 'GET',
     credentials: 'include',
-  }).then((response)=>{
-    response.text().then((text)=>{
-      //Create virtual DOM
-      const dom = document.implementation.createHTMLDocument();
-      dom.documentElement.innerHTML = text;
-      if(dom.documentElement.querySelector('.message').innerHTML === 'You are now logged out of XactAnalysis'){
-        //Logout successful
-        initLogin();
-      }else{
-        //Logut failed
-        callback(false, 'Failed to clear session');
-      }
-    });
-  });
+  }).then(initLogin);
 
   //Initial login
   function initLogin(){
