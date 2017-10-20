@@ -1,0 +1,20 @@
+.notifications{
+  z-index:1000;
+  position:fixed;
+  display:flex;
+  flex-direction:column;
+  right:0;
+  padding:0 10px;
+  align-items:flex-end;
+
+  .toast{
+    padding:10px;
+    max-width:100%;
+    background-color:#fafafa;
+    border:1px solid #eee;
+    border-radius:5px;
+    margin-top:10px;
+    box-shadow:0 1px 0 rgba(0,0,0,.15);
+    transition:margin-top 1s, margin-right 1s;
+  }
+}
