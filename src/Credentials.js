@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {xaLogin} from './global/login';
-xaLogin();
+xaLogin(console.log);
 
 export default class Credentials extends Component{
   save = (e)=>{
