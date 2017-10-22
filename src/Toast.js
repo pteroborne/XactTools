@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import './Toast.scss';
 
 export default class Parent extends Component{
@@ -15,26 +16,42 @@ export default class Parent extends Component{
 class Toast extends Component{
   constructor(){
     super();
-    this.state = {
-      style: {marginRight: '-100px'}
-    }
+    this.state = {style: {
+      //Hide toast until animation
+      visibility: 'hidden'
+    }}
   }
 
   componentDidMount(){
-    //Start timer until removal
-    setTimeout(this.hide, 5000);
+    //Find rendered width of element
+    const width = ReactDOM.findDOMNode(this).offsetWidth;
 
-    //Start show animation
-    setTimeout(this.show, 0);
+    this.setState({style: {
+      marginRight: '-'+width+'px',
+
+      //Remove transition before toast is hidden
+      transition: 'margin-right 0s'
+    }}, ()=>{
+      setTimeout(this.showToast, 0);
+    });
   }
 
-  show = ()=>{
-    this.setState({style: {marginRight: '0px'}});
+  showToast = ()=>{
+    this.setState({style: {}}, ()=>{
+      //Start timer until fade out
+      setTimeout(this.hideToast, 5000);
+    });
   }
 
+  hideToast = ()=>{
+    //Find height of element
+    const height = ReactDOM.findDOMNode(this).offsetHeight;
 
-  hide = ()=>{
-    this.setState({style: {marginTop: '-41px'}});
+    //Toggle animation
+    this.setState({style: {
+      marginTop: '-'+height+'px',
+      boxShadow: 'none'
+    }});
   }
 
   render(){
