@@ -11,11 +11,13 @@ export default class ToastContainer extends Component{
     ]}
   }
 
-  //Test method to generate new toast
+  //Set global function for toasting
   componentDidMount(){
-    setTimeout(()=>{
-      this.setState({toasts: this.state.toasts.concat({message: 'This is a new toast', display: true})});
-    }, 1050);
+    window.toast = this.sendToast;
+  }
+
+  sendToast = (msg)=>{
+    this.setState({toasts: this.state.toasts.concat({message: msg, display: true})});
   }
 
   removeToast = (i)=>{
@@ -46,6 +48,11 @@ export default class ToastContainer extends Component{
         {renderedToasts}
       </div>
     );
+  }
+
+  //Remove global function
+  componentWillUnmount(){
+    delete window.toast;
   }
 }
 
