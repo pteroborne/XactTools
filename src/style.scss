@@ -66,6 +66,12 @@ a{
     font-size:14px;
     font-family:sans-serif;
     max-width:200px;
+
+    &[disabled]{
+      background:#eaeaea;
+      color:#545454;
+      cursor:not-allowed;
+    }
   }
 }
 
@@ -79,7 +85,7 @@ a{
   color:#fff;
   user-select:none;
   cursor:pointer;
-  transition:background-color 0.2s;
+  transition:background-color 0.2s, color 0.2s;
   align-self:flex-start;
 
   &:hover{
@@ -100,5 +106,11 @@ a{
     &:active{
       background:hsl(165, 10%, 70%);
     }
+  }
+
+  &.disabled{
+    background:#eaeaea;
+    color:#545454;
+    cursor:default;
   }
 }

@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
 import {xaLogin} from './global/login';
-xaLogin(console.log);
 
 export default class Credentials extends Component{
+  constructor(){
+    super();
+    this.state = {
+      xid_disabled: false
+    }
+  }
+
   save = (e)=>{
     //Get input values
     const id = e.target.id;
@@ -19,6 +25,28 @@ export default class Credentials extends Component{
       user: user,
       pass: pass
     }));
+
+    //Test XA login
+    if(id === 'xid'){
+      //Disable inputs
+      this.setState({xid_disabled: true});
+
+      //Test XA login
+      xaLogin((success, reason)=>{
+
+        //Remove disabled
+        this.setState({xid_disabled: false});
+
+        if(success){
+          window.toast('Login successful');
+        }else{
+          window.toast(reason || 'Login failed');
+
+          //Remove credentials
+          localStorage.removeItem('xid_creds');
+        }
+      });
+    }
   }
 
   render(){
@@ -27,10 +55,10 @@ export default class Credentials extends Component{
         <div className="section">
           <div className="title">Xactware ID</div>
           <label htmlFor="xid_user">Email</label>
-          <input id="xid_user" type="email"/>
+          <input id="xid_user" type="email" disabled={this.state.xid_disabled}/>
           <label htmlFor="xid_pass">Password</label>
-          <input id="xid_pass" type="password"/>
-          <div id="xid" className="btn" onClick={this.save}>Save</div>
+          <input id="xid_pass" type="password" disabled={this.state.xid_disabled}/>
+          <div id="xid" className={this.state.xid_disabled ? 'btn disabled' : 'btn'} onClick={this.save}>Save</div>
         </div>
         <div className="section">
           <div className="title">Blue Tool</div>
