@@ -13,8 +13,8 @@ export default class Credentials extends Component{
     e.preventDefault();
 
     //Find values
-    const user = e.target.querySelector('#xid_user').value.trim();
-    const pass = e.target.querySelector('#xid_pass').value.trim();
+    const user = e.target.elements.user.value.trim();
+    const pass = e.target.elements.pass.value.trim();
 
     //Check if values are null
     if(!user || !pass){
@@ -23,7 +23,7 @@ export default class Credentials extends Component{
 
     //Check if email is valid
     if(!user.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
-      e.target.querySelector('#xid_user').focus();
+      e.target.elements.user.focus();
       window.toast('Invalid email address');
       return;
     }
@@ -57,14 +57,22 @@ export default class Credentials extends Component{
   render(){
     return (
       <div className="body">
-        <form className="section" onSubmit={this.saveXID}>
-          <div className="title">Xactware ID</div>
-          <label htmlFor="xid_user">Email</label>
-          <input id="xid_user" type="text" disabled={this.state.xid_disabled}/>
-          <label htmlFor="xid_pass">Password</label>
-          <input id="xid_pass" type="password" disabled={this.state.xid_disabled}/>
-          <button id="xid" className={this.state.xid_disabled ? 'btn disabled' : 'btn'} type="submit">Save</button>
-        </form>
+        <div className="section">
+        <div className="title">Xactware ID</div>
+          <form onSubmit={this.saveXID}>
+            <label>
+              Email
+              <input name="user" disabled={this.state.xid_disabled}/>
+            </label>
+            <label>
+              Password
+              <input name="pass" type="password" disabled={this.state.xid_disabled}/>
+            </label>
+            <div className="actions">
+              <button id="xid" className={this.state.xid_disabled ? 'btn disabled' : 'btn'} type="submit">Save</button>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }
