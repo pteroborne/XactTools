@@ -87,8 +87,20 @@ class Toast extends Component{
   }
 
   hideToast = ()=>{
+    //Check if element has been removed
+    try{
+      if(!ReactDOM.findDOMNode(this)){
+        return;
+      }
+    }catch(Error){
+      return;
+    }
+
+    //Find top margin of element
+    const margin = parseInt(getComputedStyle(ReactDOM.findDOMNode(this)).marginTop);
+
     //Find height of element
-    const height = ReactDOM.findDOMNode(this).offsetHeight;
+    const height = ReactDOM.findDOMNode(this).getBoundingClientRect().bottom - margin;
 
     //Toggle animation
     this.setState({style: {
@@ -101,6 +113,7 @@ class Toast extends Component{
     return(
       <div className="toast" style={this.state.style}>
         {this.props.message}
+        <svg onClick={this.hideToast} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </div>
     );
   }

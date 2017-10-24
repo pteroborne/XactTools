@@ -15,5 +15,32 @@
     margin-top:10px;
     box-shadow:0 1px 0 rgba(0,0,0,.15);
     transition:margin-top 1s, margin-right 1s, box-shadow 2s;
+    position:relative;
+
+    svg{
+      width:15px;
+      height:15px;
+      display:none;
+    }
+
+    &:hover svg{
+      display:block;
+      position:absolute;
+      top:0;
+      bottom:0;
+      margin:auto 0;
+      right:0;
+      padding:10px;
+      background:radial-gradient(#fafafa 40%, transparent);
+      stroke:#555;
+      stroke-width:2;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+
+      &:hover{
+        stroke:#000;
+        cursor:pointer;
+      }
+    }
   }
 }
