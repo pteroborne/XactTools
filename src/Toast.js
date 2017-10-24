@@ -5,10 +5,7 @@ import './Toast.scss';
 export default class ToastContainer extends Component{
   constructor(){
     super();
-    this.state = {toasts: [
-      {message: 'This is a toast!', display: true},
-      {message: 'This is a very long toast. Look how long this toast is. Damn.', display: true}
-    ]}
+    this.state = {toasts: []}
   }
 
   //Set global function for toasting
@@ -97,7 +94,7 @@ class Toast extends Component{
     }
 
     //Find top margin of element
-    const margin = parseInt(getComputedStyle(ReactDOM.findDOMNode(this)).marginTop);
+    const margin = parseInt(getComputedStyle(ReactDOM.findDOMNode(this)).marginTop, 10);
 
     //Find height of element
     const height = ReactDOM.findDOMNode(this).getBoundingClientRect().bottom - margin;
