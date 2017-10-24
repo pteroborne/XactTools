@@ -9,65 +9,62 @@ export default class Credentials extends Component{
     }
   }
 
-  save = (e)=>{
-    //Get input values
-    const id = e.target.id;
-    const user = e.target.closest('.section').querySelector('#'+id+'_user').value.trim();
-    const pass = e.target.closest('.section').querySelector('#'+id+'_pass').value.trim();
+  saveXID = (e)=>{
+    e.preventDefault();
 
-    //Stop if either values null
+    //Find values
+    const user = e.target.querySelector('#xid_user').value.trim();
+    const pass = e.target.querySelector('#xid_pass').value.trim();
+
+    //Check if values are null
     if(!user || !pass){
-      return
+      return;
     }
 
+    //Check if email is valid
+    if(!user.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)){
+      e.target.querySelector('#xid_user').focus();
+      window.toast('Invalid email address');
+      return;
+    }
+
+    //Disable inputs
+    this.setState({xid_disabled: true});
+
     //Store credentials in storage
-    localStorage.setItem(id+'_creds', JSON.stringify({
+    localStorage.setItem('xid_creds', JSON.stringify({
       user: user,
       pass: pass
     }));
 
-    //Test XA login
-    if(id === 'xid'){
-      //Disable inputs
-      this.setState({xid_disabled: true});
+    //Test credentials
+    xaLogin((success, reason)=>{
+      //Enable inputs
+      this.setState({xid_disabled: false});
 
-      //Test XA login
-      xaLogin((success, reason)=>{
+      if(success){
+        window.toast('Credentials saved');
+      }else{
+        window.toast(reason || 'Login failed');
 
-        //Remove disabled
-        this.setState({xid_disabled: false});
+        //Remove credentials
+        localStorage.removeItem('xid_creds');
+      }
 
-        if(success){
-          window.toast('Login successful');
-        }else{
-          window.toast(reason || 'Login failed');
-
-          //Remove credentials
-          localStorage.removeItem('xid_creds');
-        }
-      });
-    }
+    });
   }
 
   render(){
     return (
       <div className="body">
-        <div className="section">
+        <form className="section" onSubmit={this.saveXID}>
           <div className="title">Xactware ID</div>
           <label htmlFor="xid_user">Email</label>
-          <input id="xid_user" type="email" disabled={this.state.xid_disabled}/>
+          <input id="xid_user" type="text" disabled={this.state.xid_disabled}/>
           <label htmlFor="xid_pass">Password</label>
           <input id="xid_pass" type="password" disabled={this.state.xid_disabled}/>
-          <div id="xid" className={this.state.xid_disabled ? 'btn disabled' : 'btn'} onClick={this.save}>Save</div>
-        </div>
-        <div className="section">
-          <div className="title">Blue Tool</div>
-          <label htmlFor="bt_user">Username</label>
-          <input id="bt_user" type="text"/>
-          <label htmlFor="bt_pass">Password</label>
-          <input id="bt_pass" type="password"/>
-          <div id="bt" className="btn" onClick={this.save}>Save</div>
-        </div>
+          <button id="xid" className={this.state.xid_disabled ? 'btn disabled' : 'btn'} type="submit">Save</button>
+        </form>
       </div>
     );
   }
